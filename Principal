@@ -1,0 +1,93 @@
+import javax.swing.JOptionPane;
+
+public class Principal {
+	
+	static final int REGISTROS = 10;
+	static Cliente[] Clientes = new Cliente[REGISTROS]; 
+	
+	static int inicio = 0, fundo = 0, quantos = 0;
+	public static void main(String[] args) {
+		
+		String opcao = "";
+		
+		while (!opcao.equals("6")) {
+			try {
+				opcao = JOptionPane.showInputDialog("Menu de opções\n\n"+ 
+											"1 - Cadastrar\n" +
+											"2 - Consultar\n" +
+											"3 - Atualizar\n" +
+											"4 - Excluir\n" +
+											"5 - Lista\n" +
+											"6 - Sair\n");
+				switch(opcao) {
+				case "1": CadastrarCliente();
+						break;
+				case "2": ConsultarCliente();
+						break;
+				}			
+			}
+	
+			catch(Exception erro) {	
+				Message("Digite apenas uma opção válida");
+			}
+		}
+	}
+	
+
+	public static String entradaDeDadosTexto() {
+		return JOptionPane.showInputDialog(null);
+	}
+
+	public static void CadastrarCliente() {
+		if (!cheio()){
+		Cliente client = new Cliente();
+		
+			client.codigo = JOptionPane.showInputDialog("Digite seu codigo: ");
+			client.nome = JOptionPane.showInputDialog("Digite seu nome: ");
+			client.email = JOptionPane.showInputDialog("Digite seu email: ");
+			client.cidade = JOptionPane.showInputDialog("Digite sua cidade: ");
+			client.uf = JOptionPane.showInputDialog("Digite seu estado: ");
+			
+			Message ("Cadastro realizado com sucesso.");
+			
+			Clientes[quantos] = client;
+			quantos++;
+	} else {
+		Message("\nNão há espaço para cadastro.");
+	}
+}
+	private static void ConsultarCliente() {
+		int comando = 0;
+	
+		if(!vazio()) {
+			
+		comando = Integer.parseInt(JOptionPane.showInputDialog("Digite a o código do cliente que quer buscar: "));
+		
+		 
+			
+			if (Clientes[comando].codigo!=null) {
+				Message("Encontramos o cliente:\n" +
+								"Nome:" + Clientes[comando].nome +
+								"Email:" + Clientes[comando].email +
+								"Cidade:" + Clientes[comando].cidade +
+								"UF:" + Clientes[comando].uf);
+	}
+		} else {
+		Message("Cadastro vazio.");
+		}
+	}
+
+	
+	public static void Message(String texto) {
+		JOptionPane.showMessageDialog(null,texto);
+}
+
+	public static boolean cheio() {
+	return (quantos == REGISTROS);
+}
+	
+	public static boolean vazio() {
+
+		return (quantos==0);
+	}
+}
