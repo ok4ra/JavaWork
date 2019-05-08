@@ -3,7 +3,7 @@ import javax.swing.JOptionPane;
 public class Principal {
 	
 	static final int REGISTROS = 10;
-	static Cliente[] Clientes = new Cliente[REGISTROS]; 
+	public static Cliente[] Clientes = new Cliente[REGISTROS]; 
 	
 	static int inicio = 0, fundo = 0, quantos = 0;
 	public static void main(String[] args) {
