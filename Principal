@@ -18,12 +18,23 @@ public class Principal {
 											"3 - Atualizar\n" +
 											"4 - Excluir\n" +
 											"5 - Lista\n" +
-											"6 - Sair\n");
+											"6 - Sair\n\n");
 				switch(opcao) {
 				case "1": CadastrarCliente();
 						break;
 				case "2": ConsultarCliente();
 						break;
+				case "3": AtualizarEmail();
+						break;
+				case "4": ExcluirCliente();
+						break;
+				case "5": ListarClientes();
+						break;
+				case "6":
+						break;
+				
+				default:
+					Message("Opção Inválida");
 				}			
 			}
 	
@@ -31,11 +42,6 @@ public class Principal {
 				Message("Digite apenas uma opção válida");
 			}
 		}
-	}
-	
-
-	public static String entradaDeDadosTexto() {
-		return JOptionPane.showInputDialog(null);
 	}
 
 	public static void CadastrarCliente() {
@@ -52,42 +58,125 @@ public class Principal {
 			
 			Clientes[quantos] = client;
 			quantos++;
+			fundo++;
+			
 	} else {
 		Message("\nNão há espaço para cadastro.");
 	}
 }
-	private static void ConsultarCliente() {
+	
+	public static void ConsultarCliente() {
 		int comando = 0;
 	
 		if(!vazio()) {
 			
 		comando = Integer.parseInt(JOptionPane.showInputDialog("Digite a o código do cliente que quer buscar: "));
 		
-		 
-			
 			if (Clientes[comando].codigo!=null) {
 				Message("Encontramos o cliente:\n" +
 								"Nome:" + Clientes[comando].nome +
 								"Email:" + Clientes[comando].email +
 								"Cidade:" + Clientes[comando].cidade +
 								"UF:" + Clientes[comando].uf);
-	}
+			}
 		} else {
-		Message("Cadastro vazio.");
+			Message("Este cadastro está vazio.");
 		}
 	}
-
 	
+	public static void AtualizarEmail() {
+		int comando = 0;
+		String emailNew;
+		
+		if(!vazio()) {
+			
+		comando = Integer.parseInt(JOptionPane.showInputDialog("Digite a o código do cliente que deseja atualizar o email: "));
+		
+		try {
+			if (Clientes[comando]!=null && !(Clientes[fundo].nome.isEmpty())) {
+					
+				Message("Encontramos o cliente " + Clientes[comando].nome +
+						" com o email " + Clientes[comando].email);
+				
+					emailNew = JOptionPane.showInputDialog("Digite o novo email deste cliente: ");
+					
+					if (emailNew!=null) {
+						
+						Clientes[comando].email = emailNew;
+						Message("Email atualizado com sucesso.");
+					} else {
+						Message("Digite um email válido");	
+					}					
+				} 	
+				else {
+					Message("Código não cadastrado");
+				}
+			
+		} catch (Exception ex) {
+			Message("Código não encontrado");	
+		}	
+	} 
+}
+
 	public static void Message(String texto) {
 		JOptionPane.showMessageDialog(null,texto);
 }
 
+	public static void ExcluirCliente() {
+		int comando = 0;
+
+		if(!vazio()) {			
+		comando = Integer.parseInt(
+				JOptionPane.showInputDialog("Digite a o código do cliente que deseja excluir: "));
+		try {
+	
+				if (Clientes[comando].nome !=null && !(Clientes[comando].nome.isEmpty())) {
+				
+					Message("Excluímos o cliente:\n" +
+							"\nNome: " + Clientes[comando].nome +
+							"\nEmail: " + Clientes[comando].email+
+							"\nCidade: " + Clientes[comando].cidade +
+							"\nUF: " + Clientes[comando].uf);
+					
+					Clientes[comando].nome = null;
+					Clientes[comando].email = null;
+					Clientes[comando].cidade = null;
+					Clientes[comando].uf = null;
+					
+					quantos--;
+				} 
+				
+				else {
+					Message("Código não cadastrado");
+				}
+	
+		} catch (Exception ex) {
+			Message("Código não encontrado");	
+		}
+			} 
+		
+			else {
+			Message("Cadastro vazio.");
+			}	
+		}
+	
 	public static boolean cheio() {
-	return (quantos == REGISTROS);
+		return (quantos == REGISTROS);
 }
 	
 	public static boolean vazio() {
-
 		return (quantos==0);
+	}
+	
+	public static void ListarClientes() {
+		int cont=0;
+		if (!vazio()) {
+			for (cont=0;cont<fundo;cont++) {
+				Message("\nCódigo: " + Clientes[cont].codigo + "\n"
+						+ "Nome: " + Clientes[cont].nome + "\n");
+			}		
+		} else {
+			Message("Cadastro vazio.");	
+		}
 	}
 }
